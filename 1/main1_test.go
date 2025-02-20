@@ -9,7 +9,7 @@ import (
 )
 
 // Тест для NewIntegers
-func Test_NewData(t *testing.T) {
+func TestNewData(t *testing.T) {
 	data := NewData(22, 0777, 0xFF, 3.14, "Hello", true, complex(float32(3), float32(4)))
 
 	if data.NumDecimal != 22 {
@@ -41,7 +41,7 @@ func Test_NewData(t *testing.T) {
 	}
 }
 
-func Test_Display(t *testing.T) {
+func TestDisplay(t *testing.T) {
 	data := NewData(22, 0777, 0xFF, 3.14, "Hello", true, complex(float32(3), float32(4)))
 	data.DisplayIntegers()
 
@@ -68,7 +68,7 @@ func Test_Display(t *testing.T) {
 	}
 }
 
-func Test_ConvertDataToOneString(t *testing.T) {
+func TestConvertDataToOneString(t *testing.T) {
 	data := NewData(22, 0777, 0xFF, 3.14, "Hello", true, complex(float32(3), float32(4)))
 
 	res := data.ConvertDataToOneString()
@@ -112,7 +112,7 @@ func Test_ConvertDataToOneString(t *testing.T) {
 	}
 }
 
-func Test_ConvertStringToRunes(t *testing.T) {
+func TestConvertStringToRunes(t *testing.T) {
 	data := NewData(22, 0777, 0xFF, 3.14, "Hello", true, complex(float32(3), float32(4)))
 	str := data.ConvertDataToOneString()
 
@@ -126,7 +126,7 @@ func Test_ConvertStringToRunes(t *testing.T) {
 	}
 }
 
-func Test_AddSalt(t *testing.T) {
+func TestAddSalt(t *testing.T) {
 	runes := []rune("22777ff3.140000Hellotrue(3+4i)")
 	saltAdded := AddSalt(runes)
 
@@ -145,7 +145,7 @@ func Test_AddSalt(t *testing.T) {
 	}
 }
 
-func Test_HashRunes(t *testing.T) {
+func TestHashRunes(t *testing.T) {
 	runes := []rune("test")
 
 	result := HashRunes(runes)
