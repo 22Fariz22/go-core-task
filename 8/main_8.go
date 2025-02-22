@@ -1,7 +1,6 @@
 package main
 
 import (
-	"errors"
 	"fmt"
 	"sync/atomic"
 )
@@ -17,7 +16,6 @@ func main() {
 	wg.Done()
 	wg.Done()
 	wg.Done()
-	wg.counter--
 
 	fmt.Println(wg.counter)
 	wg.Wait()
@@ -34,11 +32,12 @@ func (w *WaitGroupCastom) Add() {
 }
 
 func (w *WaitGroupCastom) Done() error {
-	if atomic.LoadUint64(&w.counter) == 0 {
-		return errors.New("negative waitGroup counter")
-	}
+	// if atomic.LoadUint64(&w.counter) == 0 {
+	// 	return errors.New("negative waitGroup counter")
+	// }
+	//
+	// atomic.SwapUint64(&w.counter, 1)
 
-	atomic.SwapUint64(&w.counter, 1)
 	return nil
 }
 
@@ -51,5 +50,4 @@ func (w *WaitGroupCastom) Wait() {
 Сделать кастомную waitGroup на семафоре, не используя sync.WaitGroup.
 
 * Напишите unit тесты к созданным функциям
-
 */
