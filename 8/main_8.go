@@ -1,53 +1,40 @@
 package main
 
 import (
-	"fmt"
 	"sync/atomic"
 )
 
 func main() {
-	var wg WaitGroupCastom
-
-	fmt.Println(wg.counter)
-
-	wg.Add()
-	wg.Add()
-	wg.Add()
+	wg := NewWG()
+	wg.Add(1)
 	wg.Done()
-	wg.Done()
-	wg.Done()
-
-	fmt.Println(wg.counter)
 	wg.Wait()
-	fmt.Println("wait is successfully done")
 }
 
 type WaitGroupCastom struct {
-	counter uint64
+	counter int64
 }
 
-func (w *WaitGroupCastom) Add() {
-	// w.atom.Add(w.counter, 1)
-	atomic.AddUint64(&w.counter, 1)
+func NewWG() *WaitGroupCastom {
+	return &WaitGroupCastom{}
+
 }
 
-func (w *WaitGroupCastom) Done() error {
-	// if atomic.LoadUint64(&w.counter) == 0 {
-	// 	return errors.New("negative waitGroup counter")
-	// }
-	//
-	// atomic.SwapUint64(&w.counter, 1)
-
-	return nil
-}
-
-func (w *WaitGroupCastom) Wait() {
-	for atomic.LoadUint64(&w.counter) > 0 {
+func (w *WaitGroupCastom) Add(incr int) {
+	newVal := atomic.AddInt64(&w.counter, int64(incr))
+	if newVal < 0 {
+		panic("WaitGroup counter cannot be negative")
 	}
 }
 
-/*
-Сделать кастомную waitGroup на семафоре, не используя sync.WaitGroup.
+func (w *WaitGroupCastom) Done() {
+	newVal := atomic.AddInt64(&w.counter, int64(-1))
+	if newVal < 0 {
+		panic("WaitGroup counter cannot be negative")
+	}
+}
 
-* Напишите unit тесты к созданным функциям
-*/
+func (w *WaitGroupCastom) Wait() {
+	for w.counter != 0 {
+	}
+}
